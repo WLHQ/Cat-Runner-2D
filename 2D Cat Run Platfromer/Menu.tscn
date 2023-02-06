@@ -1,0 +1,147 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://2D Cat Run Platfromer Assets/Themes/Danger-Button.tres" type="Theme" id=1]
+[ext_resource path="res://2D Cat Run Platfromer Assets/Scripts/MenuNav.gd" type="Script" id=2]
+[ext_resource path="res://2D Cat Run Platfromer Assets/Themes/Dialog-Window.tres" type="Theme" id=3]
+[ext_resource path="res://2D Cat Run Platfromer Assets/Themes/Button-Default.tres" type="Theme" id=4]
+[ext_resource path="res://2D Cat Run Platfromer Assets/Themes/PanelDefault.tres" type="StyleBox" id=5]
+
+[node name="Panel" type="Panel"]
+margin_right = 1024.0
+margin_bottom = 600.0
+custom_styles/panel = ExtResource( 5 )
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 427.0
+margin_top = 139.0
+margin_right = 550.0
+margin_bottom = 200.0
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Main Menu
+
+Level Select:"
+align = 1
+valign = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+margin_left = 399.0
+margin_top = 238.0
+margin_right = 567.0
+margin_bottom = 371.0
+rect_scale = Vector2( 1.4, 1.4 )
+
+[node name="Dev-Lev-Button" type="Button" parent="GridContainer"]
+margin_right = 168.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Dev Level"
+
+[node name="Lev-1-Button" type="Button" parent="GridContainer"]
+margin_top = 35.0
+margin_right = 168.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Level 1"
+
+[node name="Manual-Button" type="Button" parent="GridContainer"]
+margin_top = 69.0
+margin_right = 168.0
+margin_bottom = 99.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Manual"
+
+[node name="QuitButton" type="Button" parent="GridContainer"]
+margin_top = 103.0
+margin_right = 168.0
+margin_bottom = 133.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Quit"
+
+[node name="QuitDialog" type="WindowDialog" parent="."]
+margin_left = 371.0
+margin_top = 247.0
+margin_right = 653.0
+margin_bottom = 363.0
+theme = ExtResource( 3 )
+window_title = "System"
+
+[node name="Label" type="Label" parent="QuitDialog"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -99.0
+margin_top = 16.0
+margin_right = 95.0
+margin_bottom = 63.0
+text = "Are you sure you want to quit?"
+align = 1
+valign = 1
+
+[node name="QuitConfirm" type="Button" parent="QuitDialog"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 44.0
+margin_top = -36.0
+margin_right = 117.0
+margin_bottom = -4.0
+theme = ExtResource( 1 )
+text = "Quit"
+
+[node name="Cancel" type="Button" parent="QuitDialog"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 169.0
+margin_top = -36.0
+margin_right = 242.0
+margin_bottom = -4.0
+theme = ExtResource( 4 )
+text = "Cancel"
+
+[node name="Manual" type="AcceptDialog" parent="."]
+margin_left = 268.0
+margin_top = 238.0
+margin_right = 770.0
+margin_bottom = 427.0
+theme = ExtResource( 3 )
+window_title = "Manual"
+dialog_text = "Controls:
+
+A is to go left or backwards.
+D is to go right or forwards.
+Spacebar is to climb walls ( You can only climb walls when touching a wall. )."
+
+[node name="QATestPopUp" type="AcceptDialog" parent="."]
+margin_left = 381.0
+margin_top = 198.0
+margin_right = 660.0
+margin_bottom = 439.0
+theme = ExtResource( 3 )
+window_title = "Message for QA Testers"
+dialog_text = "Welcome QA Tester!
+
+This game is running in QA Mode just for you to test. 
+
+This popup window and others can be moved by clicking & dragging the top of the window ( Preferably clicking & dragging by the window text if you like. ).
+
+Press ok to close this window."
+dialog_autowrap = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[connection signal="pressed" from="GridContainer/Dev-Lev-Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="GridContainer/Lev-1-Button" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="GridContainer/Manual-Button" to="." method="_on_ManualButton_pressed"]
+[connection signal="pressed" from="GridContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="QuitDialog/QuitConfirm" to="." method="_on_QuitConfirm_pressed"]
+[connection signal="pressed" from="QuitDialog/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="confirmed" from="Manual" to="." method="_on_Manual_confirmed"]
+[connection signal="confirmed" from="QATestPopUp" to="." method="_on_QATestPopUp_confirmed"]
