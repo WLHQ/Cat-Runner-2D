@@ -1,0 +1,211 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://2D Platformer/Players/Player/PNG/Cat-64x64.png" type="Texture" id=1]
+[ext_resource path="res://Grass-Tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://2D Platformer/Scripts/Player.gd" type="Script" id=3]
+[ext_resource path="res://2D Platformer/Scripts/FishTreat.gd" type="Script" id=4]
+[ext_resource path="res://2D Platformer/Players/Enemy/PNG/Vacuum-64x64.png" type="Texture" id=5]
+[ext_resource path="res://2D Platformer/Collectibles/Fish Treat/PNG/Fish-Treat-64x64.png" type="Texture" id=6]
+[ext_resource path="res://2D Platformer/Scripts/Enemy.gd" type="Script" id=7]
+[ext_resource path="res://2D Platformer/Scripts/ScoreLabel.gd" type="Script" id=8]
+[ext_resource path="res://2D Platformer/Scripts/Nav-Button.gd" type="Script" id=9]
+[ext_resource path="res://2D Platformer/Themes/Button-Default.tres" type="Theme" id=10]
+[ext_resource path="res://2D Platformer/Themes/Label-Default.tres" type="Theme" id=11]
+[ext_resource path="res://2D Platformer/Environment/End Point/PNG/Cat-Bed-64x64.png" type="Texture" id=12]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 23.5, 6.5 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 31.625, 17 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 30.5, 13.5 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 32, 11.5 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 1, 600 )
+tile_set = ExtResource( 2 )
+collision_layer = 8
+format = 1
+tile_data = PoolIntArray( -393216, 3, 0, -393201, 3, 0, -327680, 3, 0, -327665, 3, 0, -262144, 3, 0, -262129, 3, 0, -196608, 3, 0, -196603, 3, 0, -196600, 3, 0, -196595, 3, 0, -196593, 3, 0, -131072, 3, 0, -131069, 3, 0, -131067, 3, 0, -131065, 3, 0, -131062, 3, 0, -131060, 3, 0, -131057, 3, 0, -65536, 2, 0, -65535, 1, 0, -65534, 0, 0, -65533, 2, 0, -65532, 0, 0, -65531, 2, 0, -65530, 0, 0, -65529, 2, 0, -65528, 0, 0, -65527, 1, 0, -65526, 2, 0, -65525, 1, 0, -65524, 2, 0, -65523, 1, 0, -65522, 0, 0, -65521, 2, 0 )
+
+[node name="Enemy" type="KinematicBody2D" parent="."]
+position = Vector2( 94, 468 )
+collision_layer = 2
+collision_mask = 9
+script = ExtResource( 7 )
+
+[node name="Sprite" type="Sprite" parent="Enemy"]
+position = Vector2( 53, 23 )
+texture = ExtResource( 5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy"]
+position = Vector2( -2, 1 )
+polygon = PoolVector2Array( 33, 16, 58, 16, 60, 34, 83, 43, 83, 54, 47, 54, 33, 54, 33, 42 )
+
+[node name="EnemyDead" type="Area2D" parent="Enemy"]
+position = Vector2( 47, 28 )
+collision_layer = 2
+collision_mask = 9
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy/EnemyDead"]
+position = Vector2( -12, -52 )
+scale = Vector2( 1, 1.52244 )
+polygon = PoolVector2Array( 21, 12.48, 21, 26.2736, -3, 26.2736, -3, 12.48 )
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 83, 390 )
+collision_mask = 9
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+position = Vector2( 41, 3 )
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( 40.5, 24.5 )
+shape = SubResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( 432, -155 )
+current = true
+limit_left = 0
+limit_top = 0
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+drag_margin_left = 0.0
+drag_margin_right = 0.8
+drag_margin_bottom = 1.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="PlayerDead" type="Area2D" parent="Player"]
+position = Vector2( 41, 5 )
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/PlayerDead"]
+position = Vector2( -0.625, -6 )
+shape = SubResource( 6 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="MenuButton" type="MenuButton" parent="HUD"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 66.0
+margin_bottom = 40.0
+theme = ExtResource( 10 )
+text = "Menu"
+flat = false
+script = ExtResource( 9 )
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+margin_left = 377.0
+margin_top = 2.0
+margin_right = 655.0
+margin_bottom = 37.0
+theme = ExtResource( 11 )
+text = "Score: Collect fish to increase your score!"
+align = 1
+valign = 1
+script = ExtResource( 8 )
+
+[node name="FishTreat" type="Area2D" parent="."]
+position = Vector2( 174, 443 )
+collision_layer = 4
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="FishTreat"]
+position = Vector2( 51, 10 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FishTreat"]
+position = Vector2( 51, 10 )
+shape = SubResource( 4 )
+
+[node name="FishTreat2" type="Area2D" parent="."]
+position = Vector2( 302, 379 )
+collision_layer = 4
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="FishTreat2"]
+position = Vector2( 51, 10 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FishTreat2"]
+position = Vector2( 51, 10 )
+shape = SubResource( 4 )
+
+[node name="FishTreat3" type="Area2D" parent="."]
+position = Vector2( 429, 444 )
+collision_layer = 4
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="FishTreat3"]
+position = Vector2( 51, 10 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FishTreat3"]
+position = Vector2( 51, 10 )
+shape = SubResource( 4 )
+
+[node name="FishTreat4" type="Area2D" parent="."]
+position = Vector2( 493, 378 )
+collision_layer = 4
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="FishTreat4"]
+position = Vector2( 51, 10 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FishTreat4"]
+position = Vector2( 51, 10 )
+shape = SubResource( 4 )
+
+[node name="FishTreat5" type="Area2D" parent="."]
+position = Vector2( 748, 442 )
+collision_layer = 4
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="FishTreat5"]
+position = Vector2( 51, 10 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FishTreat5"]
+position = Vector2( 51, 10 )
+shape = SubResource( 4 )
+
+[node name="Endpoint" type="Area2D" parent="."]
+position = Vector2( 865, 376 )
+
+[node name="Sprite" type="Sprite" parent="Endpoint"]
+texture = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Endpoint"]
+position = Vector2( 0, 16.5 )
+shape = SubResource( 5 )
+
+[connection signal="body_entered" from="Player/PlayerDead" to="Enemy" method="_on_PlayerDead_body_entered"]
+[connection signal="pressed" from="HUD/MenuButton" to="HUD/MenuButton" method="_on_MenuButton_pressed"]
+[connection signal="body_entered" from="FishTreat" to="Player" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat" to="HUD/ScoreLabel" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat" to="FishTreat" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat2" to="Player" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat2" to="HUD/ScoreLabel" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat2" to="FishTreat2" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat3" to="Player" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat3" to="HUD/ScoreLabel" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat3" to="FishTreat3" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat4" to="Player" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat4" to="HUD/ScoreLabel" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat4" to="FishTreat4" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat5" to="Player" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat5" to="HUD/ScoreLabel" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="FishTreat5" to="FishTreat5" method="_on_FishTreat_body_entered"]
+[connection signal="body_entered" from="Endpoint" to="Player" method="_on_Endpoint_body_entered"]
